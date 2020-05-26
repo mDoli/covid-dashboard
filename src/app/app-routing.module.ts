@@ -9,8 +9,8 @@ const routes: Routes = [
     children: [
       {
         path: 'dashboard',
-        component: DashboardsComponent
-        // loadChildren: () => import('./main/dashboards/dashboards.module').then(t => t.DashboardsModule)
+        // component: DashboardsComponent
+        loadChildren: () => import('./main/dashboards/dashboards.module').then(t => t.DashboardsModule)
       }
     ]
   }
