@@ -6,6 +6,7 @@ import { PointMapper } from 'src/app/shared/services/mappers/point-mapper';
 import { map } from 'rxjs/operators';
 import * as Chart from 'chart.js';
 import { CountriesService } from 'src/app/shared/services/countries/countries.service';
+import { CountryModel } from 'src/app/shared/models/country.model';
 
 @Component({
     selector: 'app-dashboards',
@@ -18,6 +19,8 @@ export class DashboardsComponent implements OnInit {
     x: any[] = [];
     y: number[] = [];
     y2: number[] = [];
+    countries: CountryModel[] = [];
+    selectedCountry: CountryModel;
 
     constructor(
         private settingsService: SettingsService,
@@ -25,11 +28,28 @@ export class DashboardsComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        this.loadData();
+        this.fetchCountries();
+        setTimeout(() => this.initialLoad(), 2000);
     }
+    // nie wiem jak zrobić żeby selectedCountry się inicjalizowało dopiero po pobraniu listy krajów
+    private initialLoad() {
+        this.selectedCountry = this.countries.find(country => country.Slug === 'poland');
+        console.log(this.selectedCountry);
 
-    private loadData() {
-        this.countriesService.fetchCountryRouteMapToPoint('poland').subscribe(
+        this.loadData(this.selectedCountry);
+    }
+    private fetchCountries() {
+        this.settingsService.fetchCountries().subscribe(
+            (result: CountryModel[]) => {
+                this.countries = result;
+                console.log(this.countries);
+            },
+            (err) => this.doNothing(err)
+        );
+    }
+    public loadData(country: CountryModel) {
+        console.log(country);
+        this.countriesService.fetchCountryRouteMapToPoint(country.Slug).subscribe(
             (result: PointModel[]) => {
                 this.data = result; console.log(result);
                 result.forEach(item => {
