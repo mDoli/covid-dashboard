@@ -1,7 +1,7 @@
-<div [class.light-theme]="lightTheme" class="container mat-app-background">
+<div id="topbar">
   <div>
     {{title}}
   </div>
-  <mat-slide-toggle color="primary" (change)="changeTheme()">Change theme!</mat-slide-toggle>
-  <router-outlet></router-outlet>
+  <app-theme-switch></app-theme-switch>
 </div>
+<router-outlet></router-outlet>
