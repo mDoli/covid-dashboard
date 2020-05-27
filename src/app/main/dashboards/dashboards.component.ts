@@ -32,7 +32,7 @@ export class DashboardsComponent implements OnInit {
     }
 
     private loadData() {
-        // this.selectedCountry = this.countries.find(country => country.Slug === 'poland'); 
+        // this.selectedCountry = this.countries.find(country => country.Slug === 'poland');
         // może zrobimy wykrywanie lokalizacji i na podstawie tego ustawiania kraju?
 
         this.settingsService.fetchCountries()
@@ -41,7 +41,7 @@ export class DashboardsComponent implements OnInit {
                     this.countries = result;
                     console.log(this.countries);
                     if (this.selectedCountry != null) {
-                        this.selectedCountry = this.countries.find(country => country.Slug === this.selectedCountry.Slug)
+                        this.selectedCountry = this.countries.find(country => country.Slug === this.selectedCountry.Slug);
                     }
 
                 },
