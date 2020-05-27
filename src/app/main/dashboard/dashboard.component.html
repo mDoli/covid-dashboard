@@ -10,7 +10,7 @@
     </mat-form-field>
   </form>
 
-  <!-- <div *ngIf="chart">-->             <!--ten *ngIf nie działa-->
-  <canvas id="canvas">{{ chart }}</canvas>
-  <!-- </div> -->
+  <div *ngIf="chart">
+    <canvas id="canvas">{{ chart }}</canvas>
+  </div>
 </div>

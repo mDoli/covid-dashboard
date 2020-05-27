@@ -14,7 +14,7 @@ import { CountryModel } from 'src/app/shared/models/country.model';
     styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-    chart: any;
+    chart: any = [];
     data: PointModel[] = [];
     x: any[] = [];
     y: number[] = [];
