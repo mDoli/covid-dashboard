@@ -1,4 +1,4 @@
-@import '~@angular/material/theming';
+/*@import '~@angular/material/theming';
 
 @include mat-core();
 
@@ -9,8 +9,40 @@ $dark-theme: mat-dark-theme($primary, $accent);
 
 $light-theme: mat-light-theme($primary, $accent);
 
-@include angular-material-theme($dark-theme);
-
+.dark-theme {
+  @include angular-material-theme($dark-theme);
+}
 .light-theme {
   @include angular-material-theme($light-theme);
+}*/
+
+// jeśli chcemy używać mat-theme => kod wyżej 
+
+@import 'src/app/shared/colors.scss';
+
+@mixin theme($bg, $el-bg, $el-bg-h, $color) {
+  background-color: $bg;
+  color: $color;
+
+  .element {
+    background-color: $el-bg;
+    border-radius: 5px;
+    padding: 10px;
+    color: $color;
+  }
+
+  .element:hover {
+    background-color: $el-bg-h;
+  }
+  button {
+    outline: none;
+  }
+}
+
+.dark-theme {
+  @include theme($dark-background, $dark-element-background, $dark-element-hover, $dark-font-color);
+}
+
+.light-theme {
+  @include theme($light-background, $light-element-background, $light-element-hover, $light-font-color);
 }
