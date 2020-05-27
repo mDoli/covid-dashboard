@@ -36,13 +36,17 @@ export class DashboardsComponent implements OnInit {
         // może zrobimy wykrywanie lokalizacji i na podstawie tego ustawiania kraju?
 
         this.settingsService.fetchCountries()
-        .subscribe(
-            (result: CountryModel[]) => {
-                this.countries = result;
-                console.log(this.countries);
-            },
-            (err) => this.doNothing(err)
-        )
+            .subscribe(
+                (result: CountryModel[]) => {
+                    this.countries = result;
+                    console.log(this.countries);
+                    if (this.selectedCountry != null) {
+                        this.selectedCountry = this.countries.find(country => country.Slug === this.selectedCountry.Slug)
+                    }
+
+                },
+                (err) => this.doNothing(err)
+            )
             .add(
                 this.loadChartData(this.selectedCountry)
             );
@@ -52,19 +56,19 @@ export class DashboardsComponent implements OnInit {
     public loadChartData(country: CountryModel) {
         console.log(country);
         this.countriesService.fetchCountryRouteMapToPoint(country.Slug)
-        .subscribe(
-            (result: PointModel[]) => {
-                this.data = result; console.log(result);
-                this.x = [];
-                this.y = [];
-                this.y2 = [];
-                result.forEach(item => {
-                    this.x.push(item.x); // tutaj jakiś inny sposób trzeba wymyśleć
-                    this.y.push(item.y);
-                    this.y2.push(item.y2);
-                });
-            },
-            (err) => this.doNothing(err))
+            .subscribe(
+                (result: PointModel[]) => {
+                    this.data = result; console.log(result);
+                    this.x = [];
+                    this.y = [];
+                    this.y2 = [];
+                    result.forEach(item => {
+                        this.x.push(item.x); // tutaj jakiś inny sposób trzeba wymyśleć
+                        this.y.push(item.y);
+                        this.y2.push(item.y2);
+                    });
+                },
+                (err) => this.doNothing(err))
             .add(() => this.buildChart());
 
         // this.countriesService.fetchCountryRoute('poland')
