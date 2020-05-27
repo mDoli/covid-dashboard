@@ -35,6 +35,7 @@ $light-theme: mat-light-theme($primary, $accent);
     background-color: $el-bg-h;
   }
   button {
+    cursor: pointer;
     outline: none;
   }
 }
