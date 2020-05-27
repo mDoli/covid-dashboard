@@ -1,5 +1,5 @@
 export interface CountryModel {
-    country?: string;
-    slug?: string;
-    iso2?: string;
+    Country?: string;
+    Slug?: string;
+    ISO2?: string;
 }

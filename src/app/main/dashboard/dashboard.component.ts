@@ -6,18 +6,21 @@ import { PointMapper } from 'src/app/shared/services/mappers/point-mapper';
 import { map } from 'rxjs/operators';
 import * as Chart from 'chart.js';
 import { CountriesService } from 'src/app/shared/services/countries/countries.service';
+import { CountryModel } from 'src/app/shared/models/country.model';
 
 @Component({
-    selector: 'app-dashboards',
-    templateUrl: './dashboards.component.html',
-    styleUrls: ['./dashboards.component.scss']
+    selector: 'app-dashboard',
+    templateUrl: './dashboard.component.html',
+    styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardsComponent implements OnInit {
-    chart: any;
+export class DashboardComponent implements OnInit {
+    chart: any = [];
     data: PointModel[] = [];
     x: any[] = [];
     y: number[] = [];
     y2: number[] = [];
+    countries: CountryModel[] = [];
+    selectedCountry: CountryModel = { Slug: 'poland', Country: 'Poland' };
 
     constructor(
         private settingsService: SettingsService,
@@ -28,17 +31,44 @@ export class DashboardsComponent implements OnInit {
         this.loadData();
     }
 
-    private loadData() {
-        this.countriesService.fetchCountryRouteMapToPoint('poland').subscribe(
-            (result: PointModel[]) => {
-                this.data = result; console.log(result);
-                result.forEach(item => {
-                    this.x.push(item.x); // tutaj jakiś inny sposób trzeba wymyśleć
-                    this.y.push(item.y);
-                    this.y2.push(item.y2);
-                });
-            },
-            (err) => this.doNothing(err))
+    private loadData(): void {
+        // this.selectedCountry = this.countries.find(country => country.Slug === 'poland'); 
+        // może zrobimy wykrywanie lokalizacji i na podstawie tego ustawiania kraju?
+
+        this.settingsService.fetchCountries()
+            .subscribe(
+                (result: CountryModel[]) => {
+                    this.countries = result;
+                    console.log(this.countries);
+                    if (this.selectedCountry != null) {
+                        this.selectedCountry = this.countries.find(country => country.Slug === this.selectedCountry.Slug)
+                    }
+
+                },
+                (err) => this.doNothing(err)
+            )
+            .add(
+                this.loadChartData(this.selectedCountry)
+            );
+    }
+
+
+    public loadChartData(country: CountryModel): void {
+        console.log(country);
+        this.countriesService.fetchCountryRouteMapToPoint(country.Slug)
+            .subscribe(
+                (result: PointModel[]) => {
+                    this.data = result; console.log(result);
+                    this.x = [];
+                    this.y = [];
+                    this.y2 = [];
+                    result.forEach(item => {
+                        this.x.push(item.x); // tutaj jakiś inny sposób trzeba wymyśleć
+                        this.y.push(item.y);
+                        this.y2.push(item.y2);
+                    });
+                },
+                (err) => this.doNothing(err))
             .add(() => this.buildChart());
 
         // this.countriesService.fetchCountryRoute('poland')
@@ -48,11 +78,11 @@ export class DashboardsComponent implements OnInit {
         //         (err) => this.doNothing(err));
     }
 
-    private doNothing(err) {
+    private doNothing(err): void {
         console.log(err);
     }
 
-    private buildChart() {
+    private buildChart(): void {
 
         this.chart = new Chart('canvas', {
             type: 'line',
