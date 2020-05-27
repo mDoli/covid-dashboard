@@ -2,7 +2,7 @@
   <form>
     <mat-form-field>
       <mat-label>Country</mat-label>
-      <mat-select [(ngModel)]="selectedCountry" (selectionChange)="loadData(selectedCountry)" name="country">
+      <mat-select [(ngModel)]="selectedCountry" (selectionChange)="loadChartData(selectedCountry)" name="country">
         <mat-option *ngFor="let country of countries" [value]="country">
           {{country.Country}}
         </mat-option>

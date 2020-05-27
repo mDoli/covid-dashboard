@@ -20,7 +20,7 @@ export class DashboardsComponent implements OnInit {
     y: number[] = [];
     y2: number[] = [];
     countries: CountryModel[] = [];
-    selectedCountry: CountryModel;
+    selectedCountry: CountryModel = { Slug: 'poland' };
 
     constructor(
         private settingsService: SettingsService,
@@ -28,30 +28,36 @@ export class DashboardsComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        this.fetchCountries();
-        setTimeout(() => this.initialLoad(), 2000);
+        this.loadData();
     }
-    // nie wiem jak zrobić żeby selectedCountry się inicjalizowało dopiero po pobraniu listy krajów
-    private initialLoad() {
-        this.selectedCountry = this.countries.find(country => country.Slug === 'poland');
-        console.log(this.selectedCountry);
 
-        this.loadData(this.selectedCountry);
-    }
-    private fetchCountries() {
-        this.settingsService.fetchCountries().subscribe(
+    private loadData() {
+        // this.selectedCountry = this.countries.find(country => country.Slug === 'poland'); 
+        // może zrobimy wykrywanie lokalizacji i na podstawie tego ustawiania kraju?
+
+        this.settingsService.fetchCountries()
+        .subscribe(
             (result: CountryModel[]) => {
                 this.countries = result;
                 console.log(this.countries);
             },
             (err) => this.doNothing(err)
-        );
+        )
+            .add(
+                this.loadChartData(this.selectedCountry)
+            );
     }
-    public loadData(country: CountryModel) {
+
+
+    public loadChartData(country: CountryModel) {
         console.log(country);
-        this.countriesService.fetchCountryRouteMapToPoint(country.Slug).subscribe(
+        this.countriesService.fetchCountryRouteMapToPoint(country.Slug)
+        .subscribe(
             (result: PointModel[]) => {
                 this.data = result; console.log(result);
+                this.x = [];
+                this.y = [];
+                this.y2 = [];
                 result.forEach(item => {
                     this.x.push(item.x); // tutaj jakiś inny sposób trzeba wymyśleć
                     this.y.push(item.y);
