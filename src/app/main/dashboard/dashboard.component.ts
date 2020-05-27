@@ -31,7 +31,7 @@ export class DashboardComponent implements OnInit {
         this.loadData();
     }
 
-    private loadData() {
+    private loadData(): void {
         // this.selectedCountry = this.countries.find(country => country.Slug === 'poland'); 
         // może zrobimy wykrywanie lokalizacji i na podstawie tego ustawiania kraju?
 
@@ -53,7 +53,7 @@ export class DashboardComponent implements OnInit {
     }
 
 
-    public loadChartData(country: CountryModel) {
+    public loadChartData(country: CountryModel): void {
         console.log(country);
         this.countriesService.fetchCountryRouteMapToPoint(country.Slug)
             .subscribe(
@@ -78,11 +78,11 @@ export class DashboardComponent implements OnInit {
         //         (err) => this.doNothing(err));
     }
 
-    private doNothing(err) {
+    private doNothing(err): void {
         console.log(err);
     }
 
-    private buildChart() {
+    private buildChart(): void {
 
         this.chart = new Chart('canvas', {
             type: 'line',
