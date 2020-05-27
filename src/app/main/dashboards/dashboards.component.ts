@@ -20,7 +20,7 @@ export class DashboardsComponent implements OnInit {
     y: number[] = [];
     y2: number[] = [];
     countries: CountryModel[] = [];
-    selectedCountry: CountryModel = { Slug: 'poland' };
+    selectedCountry: CountryModel = { Slug: 'poland', Country: 'Poland' };
 
     constructor(
         private settingsService: SettingsService,
