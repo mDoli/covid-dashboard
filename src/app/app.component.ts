@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'dashb-app';
+  lightTheme = false;
+
+  changeTheme() {
+    this.lightTheme = !this.lightTheme;
+  }
 }
