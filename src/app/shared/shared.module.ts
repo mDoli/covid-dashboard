@@ -10,6 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 import { ChartsModule } from 'ng2-charts';
 
@@ -30,6 +31,7 @@ export const materialModules = [
     ScrollingModule,
     //   VirtualScrollerModule,
     MatProgressSpinnerModule,
+    MatButtonModule,
     //   MatKeyboardModule
 ];
 

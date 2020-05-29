@@ -1,4 +1,4 @@
-/*@import '~@angular/material/theming';
+@import '~@angular/material/theming';
 
 @include mat-core();
 
@@ -14,10 +14,10 @@ $light-theme: mat-light-theme($primary, $accent);
 }
 .light-theme {
   @include angular-material-theme($light-theme);
-}*/
+}
 
 // jeśli chcemy używać mat-theme => kod wyżej 
-
+/*
 @import 'src/app/shared/colors.scss';
 
 @mixin theme($bg, $el-bg, $el-bg-h, $color) {
@@ -47,3 +47,4 @@ $light-theme: mat-light-theme($primary, $accent);
 .light-theme {
   @include theme($light-background, $light-element-background, $light-element-hover, $light-font-color);
 }
+*/
